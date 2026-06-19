@@ -1,10 +1,10 @@
 services:
 
-    valorant-digital-workspace-web:
+    vidadeavion-outreach-web:
 
-        container_name: valorant-digital-workspace-web
+        container_name: vidadeavion-outreach-web
 
-        image: softwareshinobi/valorant-digital-workspace-web:aventador
+        image: vidadeavion/outreach
 
         build: 
 
