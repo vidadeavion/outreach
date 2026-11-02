@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarFree Text Cleaner - Strip Asterisks Online</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-glow: rgba(79, 70, 229, 0.15);
+        }
+
+        [data-bs-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --accent-glow: rgba(129, 140, 248, 0.25);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-font {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        .navbar {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            font-weight: 500;
+            border-radius: 12px;
+            padding: 10px 20px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .form-control, .form-select {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+
+        textarea.form-control {
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+            background-color: var(--primary-hover) !important;
+            border-color: var(--primary-hover) !important;
+            box-shadow: 0 4px 12px var(--accent-glow) !important;
+        }
+
+        .btn-secondary {
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+        }
+
+        /* Large touch targets for mobile accessibility */
+        @media (max-width: 768px) {
+            .btn-lg-mobile {
+                width: 100%;
+                padding: 14px;
+            }
+            .nav-pills {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+                white-space: nowrap;
+                flex-wrap: nowrap;
+                padding-bottom: 5px;
+            }
+            .nav-pills .nav-item {
+                flex: 0 0 auto;
+            }
+        }
+
+        /* Custom notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1055;
+        }
+
+        .custom-toast {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            color: var(--text-color);
+        }
+
+        .stat-badge {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 8px 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body data-bs-theme="light">
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid max-width-lg">
+            <span class="navbar-brand d-flex align-items-center gap-2">
+                <div class="bg-primary text-white d-flex align-items-center justify-content-center rounded-3" style="width: 40px; height: 40px;">
+                    <i class="bi bi-stars fs-4"></i>
+                </div>
+                <span class="brand-font fs-4 text-primary">StarFree</span>
+                <span class="badge bg-light text-dark border align-middle d-none d-sm-inline-block">v1.1</span>
+            </span>
+            <button id="themeToggle" class="btn btn-link text-decoration-none text-reset ms-auto p-2" aria-label="Toggle Theme">
+                <i class="bi bi-moon-stars fs-5"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container py-4 my-auto" style="max-width: 960px;">
+        <!-- Header Info -->
+        <div class="text-center mb-4">
+            <h1 class="brand-font display-6">Asterisk Stripper</h1>
+            <p class="text-muted">Effortlessly remove single (<code class="text-primary">*</code>) and double (<code class="text-primary">**</code>) asterisks from any block of text.</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-pills justify-content-center mb-4" id="appTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="cleaner-tab" data-bs-toggle="pill" data-bs-target="#cleaner" type="button" role="tab" aria-controls="cleaner" aria-selected="true">
+                    <i class="bi bi-eraser-fill"></i> Interactive Cleaner
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="batch-tab" data-bs-toggle="pill" data-bs-target="#batch" type="button" role="tab" aria-controls="batch" aria-selected="false">
+                    <i class="bi bi-collection"></i> Batch Processing
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="guide-tab" data-bs-toggle="pill" data-bs-target="#guide" type="button" role="tab" aria-controls="guide" aria-selected="false">
+                    <i class="bi bi-info-circle"></i> Guide & Presets
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="appTabsContent">
+            
+            <!-- TAB 1: INTERACTIVE CLEANER -->
+            <div class="tab-pane fade show active" id="cleaner" role="tabpanel" aria-labelledby="cleaner-tab">
+                <div class="row g-4">
+                    <!-- Input Section -->
+                    <div class="col-md-6">
+                        <div class="card h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h3 class="fs-5 mb-0 font-weight-bold">Input Text</h3>
+                                <button id="clearInputBtn" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                                    <i class="bi bi-trash3 me-1"></i> Clear
+                                </button>
+                            </div>
+                            <textarea id="inputText" class="form-control flex-grow-1" rows="10" placeholder="Type or paste your text containing *asterisks* and **double asterisks** here..."></textarea>
+                            
+                            <!-- Customization/Options inside the card -->
+                            <div class="mt-3">
+                                <label class="form-label text-muted fw-semibold small mb-2">Cleaning Settings</label>
+                                <div class="card p-3 bg-light border-0">
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="optDouble" checked>
+                                        <label class="form-check-input-label" for="optDouble">Remove Double Asterisks (<code class="small">**text**</code> &rarr; <code class="small">text</code>)</label>
+                                    </div>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="optSingle" checked>
+                                        <label class="form-check-input-label" for="optSingle">Remove Single Asterisks (<code class="small">*text*</code> &rarr; <code class="small">text</code>)</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="optRealtime" checked>
+                                        <label class="form-check-input-label" for="optRealtime">Real-time instant cleaning</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button id="cleanTextBtn" class="btn btn-primary w-full btn-lg-mobile mt-3 d-md-none">
+                                <i class="bi bi-sparkles me-2"></i> Clean Text
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div class="col-md-6">
+                        <div class="card h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h3 class="fs-5 mb-0 font-weight-bold">Cleaned Output</h3>
+                                <div class="d-flex gap-2">
+                                    <button id="copyOutputBtn" class="btn btn-primary btn-sm rounded-pill px-3">
+                                        <i class="bi bi-clipboard2 me-1"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <textarea id="outputText" class="form-control flex-grow-1 bg-light" rows="10" readonly placeholder="Your cleaned text will appear here instantly..."></textarea>
+
+                            <!-- Stat Summary Card -->
+                            <div class="mt-3">
+                                <label class="form-label text-muted fw-semibold small mb-2">Processing Metrics</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="stat-badge">
+                                            <div class="small text-muted text-uppercase" style="font-size: 0.75rem;">Stars Removed</div>
+                                            <div id="metricStars" class="fs-4 font-weight-bold text-primary brand-font">0</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="stat-badge">
+                                            <div class="small text-muted text-uppercase" style="font-size: 0.75rem;">Saved Length</div>
+                                            <div id="metricDiff" class="fs-4 font-weight-bold text-success brand-font">0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Manual Clean Row for Desktop (only visible if realtime is off) -->
+                <div id="manualCleanContainer" class="row mt-4 d-none">
+                    <div class="col text-center">
+                        <button id="manualCleanBtn" class="btn btn-primary btn-lg px-5">
+                            <i class="bi bi-sparkles me-2"></i> Process Text Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: BATCH PROCESSING -->
+            <div class="tab-pane fade" id="batch" role="tabpanel" aria-labelledby="batch-tab">
+                <div class="card p-4">
+                    <h3 class="fs-4 mb-3 brand-font">Multi-Line / Bulk Processor</h3>
+                    <p class="text-muted mb-4">Paste multiple records or blocks of text here. Each line can be cleaned independently. Perfect for processing markdown notes, CSV entries, or plain texts.</p>
+
+                    <div class="mb-3">
+                        <label for="batchInput" class="form-label fw-bold">Bulk Input (one entry per line)</label>
+                        <textarea id="batchInput" class="form-control" rows="8" placeholder="*Apple*
+**Orange**
+*Strawberry* & **Blueberry**"></textarea>
+                    </div>
+
+                    <div class="row g-3 align-items-center mb-4">
+                        <div class="col-md-6">
+                            <label for="batchDelimiter" class="form-label fw-bold">Output Delimiter</label>
+                            <select id="batchDelimiter" class="form-select">
+                                <option value="\n">New Line</option>
+                                <option value=", ">Comma separated (,)</option>
+                                <option value=" | ">Pipe separated (|)</option>
+                                <option value="\n\n">Double New Line</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 text-md-end mt-4">
+                            <button id="batchProcessBtn" class="btn btn-primary btn-lg-mobile px-4">
+                                <i class="bi bi-lightning-charge-fill me-1"></i> Clean Bulk Entries
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label for="batchOutput" class="form-label fw-bold">Bulk Result</label>
+                            <button id="copyBatchBtn" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                <i class="bi bi-clipboard2 me-1"></i> Copy All
+                            </button>
+                        </div>
+                        <textarea id="batchOutput" class="form-control bg-light" rows="8" readonly placeholder="Your bulk cleaned outputs will be generated here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: GUIDE & PRESETS -->
+            <div class="tab-pane fade" id="guide" role="tabpanel" aria-labelledby="guide-tab">
+                <div class="row g-4">
+                    <!-- Guide Content -->
+                    <div class="col-md-7">
+                        <div class="card p-4 h-100">
+                            <h3 class="fs-4 mb-3 brand-font">How it works</h3>
+                            <p>This webapp strips formatting markers often found in Markdown, export scripts, or messaging applications (like Slack, WhatsApp, and Discord) without destroying the textual content surrounding them.</p>
+                            
+                            <hr class="my-3">
+                            
+                            <h4 class="fs-5 mb-3">Syntax Demonstration</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Original Markdown</th>
+                                            <th>Cleaned Output</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>*Hello World*</code></td>
+                                            <td><span class="text-success fw-semibold">Hello World</span></td>
+                                            <td>Single Asterisks (Italics)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>**Hello World**</code></td>
+                                            <td><span class="text-success fw-semibold">Hello World</span></td>
+                                            <td>Double Asterisks (Bold)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>***Extremely Bold***</code></td>
+                                            <td><span class="text-success fw-semibold">Extremely Bold</span></td>
+                                            <td>Triple Asterisks (Bold & Italic)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>My item *is stellar*!</code></td>
+                                            <td><span class="text-success fw-semibold">My item is stellar!</span></td>
+                                            <td>Inline formatting</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Presets & Sandbox Sandbox -->
+                    <div class="col-md-5">
+                        <div class="card p-4 h-100">
+                            <h3 class="fs-4 mb-3 brand-font">Try Presets</h3>
+                            <p class="text-muted">Click any preset below to load it immediately into the interactive cleaner to test its performance.</p>
+                            
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-outline-secondary text-start p-3 rounded-3 preset-btn" data-text="Today I read a **fantastic article** about web development. It was *super interesting*!">
+                                    <div class="fw-bold text-primary">Standard Bold & Italic</div>
+                                    <div class="small text-muted text-truncate">Today I read a **fantastic article** about...</div>
+                                </button>
+                                
+                                <button class="btn btn-outline-secondary text-start p-3 rounded-3 preset-btn" data-text="* List Item One
+* List Item Two with **Bold Subtext**
+* Last item with some ***extra emphasizing***!">
+                                    <div class="fw-bold text-primary">Mixed Bullet List</div>
+                                    <div class="small text-muted text-truncate">* List Item One \n* List Item Two with...</div>
+                                </button>
+                                
+                                <button class="btn btn-outline-secondary text-start p-3 rounded-3 preset-btn" data-text="This has ***triple stars***, **double stars**, and *single stars* all over. Some lone ones too * that should stay clean.">
+                                    <div class="fw-bold text-primary">Heavy Formatting Stack</div>
+                                    <div class="small text-muted text-truncate">This has ***triple stars***, **double stars**...</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Bootstrap 5 JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Theme toggle capability
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+
+            $('#themeToggle').on('click', function() {
+                const currentTheme = $('body').attr('data-bs-theme');
+                const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setTheme(nextTheme);
+            });
+
+            function setTheme(theme) {
+                $('body').attr('data-bs-theme', theme);
+                localStorage.setItem('theme', theme);
+                const icon = theme === 'dark' ? 'bi-sun-fill' : 'bi-moon-stars-fill';
+                $('#themeToggle i').attr('class', `bi ${icon} fs-5`);
+            }
+
+            // Core Cleaning Logic
+            function cleanAsterisks(text, stripSingle, stripDouble) {
+                if (!text) return { cleanedText: '', starsRemoved: 0 };
+
+                let originalCount = (text.match(/\*/g) || []).length;
+                let cleaned = text;
+
+                // Process depending on config selections
+                if (stripDouble && stripSingle) {
+                    // Remove all asterisks universally
+                    cleaned = cleaned.replace(/\*/g, '');
+                } else if (stripDouble) {
+                    // Match only double asterisks but preserve single
+                    cleaned = cleaned.replace(/\*\*/g, '');
+                } else if (stripSingle) {
+                    // Match and remove single asterisks. To be precise without removing double stars, 
+                    // we target asterisks that don't have adjacent asterisks.
+                    // This regex matches stars that are NOT next to another star
+                    cleaned = cleaned.replace(/(?<!\*)\*(?!\*)/g, '');
+                }
+
+                let finalCount = (cleaned.match(/\*/g) || []).length;
+                let starsRemoved = originalCount - finalCount;
+
+                return {
+                    cleanedText: cleaned,
+                    starsRemoved: starsRemoved
+                };
+            }
+
+            // Perform interactive cleaning
+            function performInteractiveCleaning() {
+                const input = $('#inputText').val();
+                const optSingle = $('#optSingle').is(':checked');
+                const optDouble = $('#optDouble').is(':checked');
+
+                const result = cleanAsterisks(input, optSingle, optDouble);
+                
+                $('#outputText').val(result.cleanedText);
+                $('#metricStars').text(result.starsRemoved);
+
+                // Calculate efficiency savings percentage
+                if (input.length > 0) {
+                    let efficiency = ((input.length - result.cleanedText.length) / input.length * 100).toFixed(0);
+                    $('#metricDiff').text(`${efficiency}%`);
+                    $('#metricDiff').removeClass('text-muted').addClass('text-success');
+                } else {
+                    $('#metricDiff').text('0%');
+                    $('#metricDiff').removeClass('text-success').addClass('text-muted');
+                }
+            }
+
+            // Input Events
+            $('#inputText').on('input', function() {
+                if ($('#optRealtime').is(':checked')) {
+                    performInteractiveCleaning();
+                }
+            });
+
+            $('#optSingle, #optDouble').on('change', function() {
+                if ($('#optRealtime').is(':checked')) {
+                    performInteractiveCleaning();
+                }
+            });
+
+            $('#optRealtime').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#manualCleanContainer').addClass('d-none');
+                    performInteractiveCleaning();
+                } else {
+                    $('#manualCleanContainer').removeClass('d-none');
+                }
+            });
+
+            // Action Buttons
+            $('#cleanTextBtn, #manualCleanBtn').on('click', function() {
+                performInteractiveCleaning();
+                showToast('Text cleaned successfully!', 'success');
+            });
+
+            $('#clearInputBtn').on('click', function() {
+                $('#inputText').val('').trigger('input');
+                $('#outputText').val('');
+                $('#metricStars').text('0');
+                $('#metricDiff').text('0%').removeClass('text-success').addClass('text-muted');
+                showToast('Input cleared', 'info');
+            });
+
+            // Clipboard Action (Safe fallback implementation)
+            $('#copyOutputBtn').on('click', function() {
+                const textVal = $('#outputText').val();
+                if (!textVal) {
+                    showToast('Nothing to copy yet!', 'warning');
+                    return;
+                }
+
+                // Fallback using temporary textarea to ensure compatibility inside frames
+                const tempTextarea = $('<textarea>');
+                $('body').append(tempTextarea);
+                tempTextarea.val(textVal).select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Copied to clipboard!', 'success');
+                } catch (err) {
+                    showToast('Unable to copy. Please select and copy manually.', 'danger');
+                }
+                tempTextarea.remove();
+            });
+
+            // Preset Trigger
+            $('.preset-btn').on('click', function() {
+                const sampleText = $(this).attr('data-text');
+                $('#inputText').val(sampleText);
+                
+                // Go to cleaner tab
+                const triggerEl = document.querySelector('#cleaner-tab');
+                bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+                
+                // Process
+                performInteractiveCleaning();
+                showToast('Preset text loaded!', 'info');
+            });
+
+            // Batch Processor
+            $('#batchProcessBtn').on('click', function() {
+                const inputVal = $('#batchInput').val();
+                if (!inputVal) {
+                    showToast('Please insert bulk input.', 'warning');
+                    return;
+                }
+
+                const lines = inputVal.split('\n');
+                const optSingle = $('#optSingle').is(':checked');
+                const optDouble = $('#optDouble').is(':checked');
+                let cleanedLines = [];
+
+                lines.forEach(function(line) {
+                    const res = cleanAsterisks(line, optSingle, optDouble);
+                    cleanedLines.push(res.cleanedText);
+                });
+
+                // Read selected separator
+                let delimType = $('#batchDelimiter').val();
+                let joiner = '\n';
+                if (delimType === ', ') joiner = ', ';
+                if (delimType === ' | ') joiner = ' | ';
+                if (delimType === '\\n\\n') joiner = '\n\n';
+
+                $('#batchOutput').val(cleanedLines.join(joiner));
+                showToast(`Processed ${lines.length} entries successfully!`, 'success');
+            });
+
+            $('#copyBatchBtn').on('click', function() {
+                const batchVal = $('#batchOutput').val();
+                if (!batchVal) {
+                    showToast('No batch results to copy!', 'warning');
+                    return;
+                }
+
+                const tempTextarea = $('<textarea>');
+                $('body').append(tempTextarea);
+                tempTextarea.val(batchVal).select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Copied batch results to clipboard!', 'success');
+                } catch (err) {
+                    showToast('Unable to copy automatically.', 'danger');
+                }
+                tempTextarea.remove();
+            });
+
+            // Toast feedback function
+            function showToast(message, type = 'info') {
+                const toastId = 'toast-' + Date.now();
+                let icon = 'bi-info-circle';
+                let borderClass = 'border-primary';
+
+                if (type === 'success') {
+                    icon = 'bi-check-circle-fill text-success';
+                    borderClass = 'border-success';
+                } else if (type === 'warning') {
+                    icon = 'bi-exclamation-triangle-fill text-warning';
+                    borderClass = 'border-warning';
+                } else if (type === 'danger') {
+                    icon = 'bi-x-circle-fill text-danger';
+                    borderClass = 'border-danger';
+                }
+
+                const toastHTML = `
+                    <div id="${toastId}" class="toast align-items-center custom-toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body d-flex align-items-center gap-2">
+                                <i class="bi ${icon} fs-5"></i>
+                                <span>${message}</span>
+                            </div>
+                            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                `;
+
+                $('#toastContainer').append(toastHTML);
+
+                // Auto destroy toast after 3 seconds
+                setTimeout(() => {
+                    $(`#${toastId}`).fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }, 3000);
+
+                // Explicit dismiss event listener
+                $(`#${toastId} .btn-close`).on('click', function() {
+                    $(this).closest('.toast').remove();
+                });
+            }
+
+            // Initial auto-clean on start
+            performInteractiveCleaning();
+        });
+    </script>
+</body>
+</html>
